@@ -1,0 +1,173 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "WikiMap",
+	"description": "Schema for WikiMaps interactive map content stored on pages in the Map: namespace.",
+	"type": "object",
+	"required": [ "mapImage", "mapBounds" ],
+	"additionalProperties": false,
+	"properties": {
+		"version": {
+			"type": "integer",
+			"const": 1,
+			"description": "Schema version. Must be 1."
+		},
+		"mapImage": {
+			"type": "string",
+			"description": "File title of the background image (without the File: namespace prefix). Must be uploaded to the wiki. Supported formats: .jpg, .jpeg, .png, .svg.",
+			"minLength": 1
+		},
+		"description": {
+			"type": "string",
+			"description": "Short text description of the map. Supports basic wikitext (links, formatting).",
+			"maxLength": 500
+		},
+		"mapBounds": {
+			"type": "array",
+			"description": "Bounding box defining the coordinate extent of the map as [[minX, minY], [maxX, maxY]]. The aspect ratio of the bounds should match the source image to avoid stretching.",
+			"items": {
+				"type": "array",
+				"items": { "type": "number" },
+				"minItems": 2,
+				"maxItems": 2
+			},
+			"minItems": 2,
+			"maxItems": 2
+		},
+		"origin": {
+			"type": "string",
+			"description": "Location of the coordinate origin [0,0].",
+			"enum": [ "top-left", "bottom-left" ],
+			"default": "top-left"
+		},
+		"coordinateOrder": {
+			"type": "string",
+			"description": "Order of coordinate pairs throughout the map data.",
+			"enum": [ "xy", "yx" ],
+			"default": "xy"
+		},
+		"categories": {
+			"type": "array",
+			"description": "Marker categories shown in the filter list.",
+			"items": { "$ref": "#/definitions/category" }
+		},
+		"markers": {
+			"type": "array",
+			"description": "Map markers. Each must reference a defined category by its id.",
+			"items": { "$ref": "#/definitions/marker" }
+		},
+		"pageCategories": {
+			"type": "array",
+			"description": "Wiki categories to place the map page in (without the Category: prefix).",
+			"items": { "type": "string" }
+		},
+		"defaultSort": {
+			"type": "string",
+			"description": "Custom sort key for category pages. Defaults to the page name."
+		}
+	},
+	"definitions": {
+		"category": {
+			"type": "object",
+			"required": [ "id", "name", "color" ],
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"type": [ "string", "number" ],
+					"description": "Unique identifier for this category."
+				},
+				"name": {
+					"type": "string",
+					"description": "Display name shown in the filter list.",
+					"minLength": 1
+				},
+				"color": {
+					"type": "string",
+					"description": "Hex color (e.g. #ff00ff) or CSS named color for the default marker pin.",
+					"pattern": "^(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})|[a-zA-Z]+)$"
+				},
+				"symbol": {
+					"type": "string",
+					"description": "Single Unicode character or emoji displayed on the default pin.",
+					"maxLength": 2
+				},
+				"symbolColor": {
+					"type": "string",
+					"description": "Color of the symbol. Required when symbol is set.",
+					"pattern": "^(#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})|[a-zA-Z]+)$"
+				},
+				"icon": {
+					"type": "string",
+					"description": "File title of a custom icon (32-64px, .svg/.png/.jpg). Replaces the default pin."
+				},
+				"listId": {
+					"type": "number",
+					"description": "Sort order in the filter list."
+				}
+			}
+		},
+		"marker": {
+			"type": "object",
+			"required": [ "id", "categoryId", "position", "popup" ],
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"type": [ "string", "number" ],
+					"description": "Unique identifier for this marker."
+				},
+				"categoryId": {
+					"type": [ "string", "number" ],
+					"description": "ID of the category this marker belongs to."
+				},
+				"position": {
+					"type": "array",
+					"description": "Coordinate position [x, y] within mapBounds (or [y, x] if coordinateOrder is yx).",
+					"items": { "type": "number" },
+					"minItems": 2,
+					"maxItems": 2
+				},
+				"icon": {
+					"type": "string",
+					"description": "File title of a custom icon that overrides the category icon."
+				},
+				"popup": { "$ref": "#/definitions/popup" }
+			}
+		},
+		"popup": {
+			"type": "object",
+			"required": [ "title" ],
+			"additionalProperties": false,
+			"properties": {
+				"title": {
+					"type": "string",
+					"description": "Marker title displayed in the popup.",
+					"maxLength": 50
+				},
+				"description": {
+					"type": "string",
+					"description": "Popup body text. Supports basic wikitext.",
+					"maxLength": 300
+				},
+				"link": {
+					"type": "object",
+					"description": "Internal wiki link shown in the popup.",
+					"required": [ "url", "label" ],
+					"additionalProperties": false,
+					"properties": {
+						"url": {
+							"type": "string",
+							"description": "Article title (or Article#Section) to link to."
+						},
+						"label": {
+							"type": "string",
+							"description": "Display text for the link."
+						}
+					}
+				},
+				"image": {
+					"type": "string",
+					"description": "File title of an image shown in the popup."
+				}
+			}
+		}
+	}
+}
