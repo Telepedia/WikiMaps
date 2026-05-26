@@ -1,0 +1,30 @@
+{
+	"name": "WikiMaps",
+	"version": "0.0.0-alpha",
+	"author": [
+		"Telepedia Ltd."
+	],
+	"url": "https://github.com/Telepedia/WikiMaps",
+	"descriptionmsg": "wikimaps-desc",
+	"license-name": "Apache-2.0",
+	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.43"
+	},
+	"MessagesDirs": {
+		"WikiMaps": [
+			"i18n"
+		]
+	},
+	"AutoloadNamespaces": {
+		"Telepedia\\Extensions\\WikiMaps\\": "includes/"
+	},
+	"ConfigRegistry": {
+		"WikiMaps": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "WikiMaps"
+	},
+	"manifest_version": 2
+}
