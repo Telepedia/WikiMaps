@@ -19,12 +19,83 @@
 	"AutoloadNamespaces": {
 		"Telepedia\\Extensions\\WikiMaps\\": "includes/"
 	},
+	"SpecialPages": {
+		"AllMaps": {
+			"class": "Telepedia\\Extensions\\WikiMaps\\Specials\\SpecialAllMaps"
+		}
+	},
 	"ConfigRegistry": {
 		"WikiMaps": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
 	},
 	"ResourceFileModulePaths": {
-		"localBasePath": "",
+		"localBasePath": "resources",
 		"remoteExtPath": "WikiMaps"
 	},
+	"ResourceModules": {
+		"ext.wikimaps.specials": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"dependencies": [
+				"vue"
+			],
+			"packageFiles": [
+				"ext.wikimaps.specials/index.js",
+				"ext.wikimaps.specials/AllMaps.vue"
+			],
+			"codexComponents": [
+				"CdxDialog",
+				"CdxField",
+				"CdxTextInput"
+			]
+		},
+		"ext.wikimaps.editor": {
+			"class": "MediaWiki\\ResourceLoader\\CodexModule",
+			"dependencies": [
+				"vue",
+				"pinia",
+				"mediawiki.api"
+			],
+			"packageFiles": [
+				"ext.wikimaps.editor/index.js",
+				"ext.wikimaps.editor/store.js",
+				"ext.wikimaps.editor/MapEditor.vue",
+				"ext.wikimaps.editor/FileInputWidget.vue",
+				{
+					"name": "icons.json",
+					"callback": "MediaWiki\\ResourceLoader\\CodexModule::getIcons",
+					"callbackParam": [
+						"cdxIconMap"
+					]
+				}
+			],
+			"codexComponents": [
+				"CdxAccordion",
+				"CdxField",
+				"CdxTextInput",
+				"CdxIcon"
+			],
+			"messages": [
+				"wikimaps-file-too-large",
+				"wikimaps-file-invalid-type"
+			]
+		}
+	},
+	"Actions": {
+		"mapedit": "Telepedia\\Extensions\\WikiMaps\\MapEditAction"
+	},
+	"namespaces": [
+		{
+			"id": 2900,
+			"constant": "NS_WIKIMAP",
+			"name": "Map",
+			"content": true,
+			"subpages": false,
+			"capitallinkoverride": true
+		},
+		{
+			"id": 2901,
+			"constant": "NS_WIKIMAP_TALK",
+			"name": "Map_talk"
+		}
+	],
 	"manifest_version": 2
 }

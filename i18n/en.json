@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Telepedia Ltd."
+		]
+	},
+	"wikimaps-desc": "Interactive maps for MediaWiki",
+	"allmaps": "All Maps",
+	"ext-wikimaps-subtitle": "Browse all interactive maps created for this wiki. You can also create new maps from this page or edit existing ones.",
+	"wikimaps-file-too-large": "File is too large. Maximum size is $1MB.",
+	"wikimaps-file-invalid-type": "Invalid file type. Please select a PNG or JPEG image."
+}
