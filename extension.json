@@ -97,5 +97,13 @@
 			"name": "Map_talk"
 		}
 	],
+	"ServiceWiringFiles": [
+		"includes/ServiceWiring.php"
+	],
+	"config": {
+		"WikiMapsVipsCommand": {
+			"value": "vips"
+		}
+	},
 	"manifest_version": 2
 }
